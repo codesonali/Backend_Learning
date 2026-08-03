@@ -4,6 +4,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
+    "tailwind": "npx @tailwindcss/cli -i ./public/stylesheets/input.css -o ./public/stylesheets/output.css --watch",
+
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,8 +13,10 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@tailwindcss/cli": "^4.3.3",
     "ejs": "^6.0.1",
     "express": "^5.2.1",
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "tailwindcss": "^4.3.3"
   }
 }

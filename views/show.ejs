@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= filename.replace(".txt", "") %></title>
+
+    <link rel="stylesheet" href="/stylesheets/output.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+
+    <div class="min-h-screen bg-zinc-900 p-10">
+
+        <a href="/" class="text-blue-500 hover:underline">
+            ← Back to Home
+        </a>
+
+        <div class="mt-8 bg-zinc-800 rounded-lg p-8">
+
+            <h1 class="text-4xl font-bold text-white">
+                <%= filename.replace(".txt","") %>
+            </h1>
+
+            <hr class="my-6 border-zinc-700">
+
+            <p class="text-zinc-300 text-lg whitespace-pre-wrap">
+                <%= filedata %>
+            </p>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
