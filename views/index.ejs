@@ -22,7 +22,10 @@
                 %>
                 <div class="task min-w-72 px-3 py-4  rounded-md bg-zinc-800">
             <h1 class="text-white text-2xl tracking-tighter"><%= val.replace(".txt","") %></h1>   
-            <a class="text-blue-600 inline-block mt-3" href="/file/<%= val %>">Read more...</a>
+            <div class="flex w-full justify-between items-center mt-3">
+                <a class="text-blue-600 inline-block " href="/file/<%= val %>">Read more...</a>
+            <a class="text-zinc-400" href="/edit/<%= val %>">Edit</a>
+            </div>
             </div>
 
             <% }) %>

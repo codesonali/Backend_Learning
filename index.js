@@ -13,6 +13,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Home Route
 app.get("/", function (req, res) {
+
     fs.readdir("./files", function (err, files) {
 
         if (err) {
@@ -20,8 +21,12 @@ app.get("/", function (req, res) {
             return res.send("Unable to read files.");
         }
 
-        res.render("index", { files: files });
+        res.render("index", {
+            files: files
+        });
+
     });
+
 });
 
 // Create Note
@@ -40,9 +45,13 @@ app.post("/create", function (req, res) {
             }
 
             res.redirect("/");
+
         }
     );
+
 });
+
+// Read Note
 app.get("/file/:filename", function (req, res) {
 
     fs.readFile(
@@ -59,12 +68,71 @@ app.get("/file/:filename", function (req, res) {
                 filename: req.params.filename,
                 filedata: filedata
             });
+
         }
     );
 
 });
 
-// Start Server
+// Edit Page
+app.get("/edit/:filename", function (req, res) {
+
+    fs.readFile(
+        `./files/${req.params.filename}`,
+        "utf-8",
+        function (err, filedata) {
+
+            if (err) {
+                console.log(err);
+                return res.send("File not found.");
+            }
+
+            res.render("edit", {
+                filename: req.params.filename,
+                filedata: filedata
+            });
+
+        }
+    );
+
+});
+
+// Update Note
+app.post("/edit/:filename", function (req, res) {
+
+    const newFileName = req.body.title.split(" ").join("") + ".txt";
+
+    fs.rename(
+        `./files/${req.params.filename}`,
+        `./files/${newFileName}`,
+        function (err) {
+
+            if (err) {
+                console.log(err);
+                return res.send("Unable to rename file.");
+            }
+
+            fs.writeFile(
+                `./files/${newFileName}`,
+                req.body.details,
+                function (err) {
+
+                    if (err) {
+                        console.log(err);
+                        return res.send("Unable to update file.");
+                    }
+
+                    res.redirect("/");
+
+                }
+            );
+
+        }
+    );
+
+});
+
+// Server
 app.listen(3000, function () {
-    console.log("Server is running on http://localhost:3000");
+    console.log("Server running at http://localhost:3000");
 });
