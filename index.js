@@ -13,9 +13,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Home Route
 app.get("/", function (req, res) {
-
     fs.readdir("./files", function (err, files) {
-
         if (err) {
             console.log(err);
             return res.send("Unable to read files.");
@@ -24,30 +22,36 @@ app.get("/", function (req, res) {
         res.render("index", {
             files: files
         });
-
     });
-
 });
 
 // Create Note
 app.post("/create", function (req, res) {
 
-    const fileName = req.body.title.split(" ").join("") + ".txt";
+    const fileName = req.body.title.trim().split(" ").join("") + ".txt";
 
-    fs.writeFile(
-        `./files/${fileName}`,
-        req.body.details,
-        function (err) {
+    // Prevent duplicate note
+    fs.access(`./files/${fileName}`, fs.constants.F_OK, function (err) {
 
-            if (err) {
-                console.log(err);
-                return res.send("Something went wrong.");
-            }
-
-            res.redirect("/");
-
+        if (!err) {
+            return res.send("A note with this title already exists.");
         }
-    );
+
+        fs.writeFile(
+            `./files/${fileName}`,
+            req.body.details,
+            function (err) {
+
+                if (err) {
+                    console.log(err);
+                    return res.send("Unable to create note.");
+                }
+
+                res.redirect("/");
+            }
+        );
+
+    });
 
 });
 
@@ -100,7 +104,7 @@ app.get("/edit/:filename", function (req, res) {
 // Update Note
 app.post("/edit/:filename", function (req, res) {
 
-    const newFileName = req.body.title.split(" ").join("") + ".txt";
+    const newFileName = req.body.title.trim().split(" ").join("") + ".txt";
 
     fs.rename(
         `./files/${req.params.filename}`,
@@ -119,7 +123,7 @@ app.post("/edit/:filename", function (req, res) {
 
                     if (err) {
                         console.log(err);
-                        return res.send("Unable to update file.");
+                        return res.send("Unable to update note.");
                     }
 
                     res.redirect("/");
@@ -132,7 +136,26 @@ app.post("/edit/:filename", function (req, res) {
 
 });
 
+// Delete Note
+app.get("/delete/:filename", function (req, res) {
+
+    fs.unlink(
+        `./files/${req.params.filename}`,
+        function (err) {
+
+            if (err) {
+                console.log(err);
+                return res.send("Unable to delete note.");
+            }
+
+            res.redirect("/");
+
+        }
+    );
+
+});
+
 // Server
 app.listen(3000, function () {
-    console.log("Server running at http://localhost:3000");
+    console.log("🚀 Server running at http://localhost:3000");
 });

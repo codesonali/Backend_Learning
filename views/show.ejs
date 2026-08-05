@@ -3,34 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= filename.replace(".txt", "") %></title>
+    <title><%= filename.replace(".txt","") %></title>
 
     <link rel="stylesheet" href="/stylesheets/output.css">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body>
 
-    <div class="min-h-screen bg-zinc-900 p-10">
+<div class="min-h-screen bg-zinc-900">
 
-        <a href="/" class="text-blue-500 hover:underline">
+    <!-- Header -->
+    <div class="max-w-5xl mx-auto px-8 pt-10 flex justify-between items-center">
+
+        <a
+            href="/"
+            class="text-blue-400 hover:text-blue-300 transition">
             ← Back to Home
         </a>
 
-        <div class="mt-8 bg-zinc-800 rounded-lg p-8">
+        <a
+            href="/edit/<%= filename %>"
+            class="bg-yellow-500 hover:bg-yellow-600 transition duration-300 px-5 py-2 rounded-lg text-white font-medium">
+             Edit
+        </a>
 
-            <h1 class="text-4xl font-bold text-white">
+    </div>
+
+    <!-- Note Card -->
+    <div class="max-w-5xl mx-auto px-8 py-10">
+
+        <div class="bg-zinc-800 rounded-2xl shadow-2xl p-8">
+
+            <h1 class="text-5xl font-bold text-white break-words">
                 <%= filename.replace(".txt","") %>
             </h1>
 
-            <hr class="my-6 border-zinc-700">
+            <div class="w-full h-px bg-zinc-700 my-8"></div>
 
-            <p class="text-zinc-300 text-lg whitespace-pre-wrap">
+            <p class="text-zinc-300 text-lg leading-8 whitespace-pre-wrap break-words">
                 <%= filedata %>
             </p>
+
+            <!-- Buttons -->
+            <div class="flex gap-4 mt-10">
+
+                <a
+                    href="/edit/<%= filename %>"
+                    class="bg-yellow-500 hover:bg-yellow-600 transition duration-300 px-6 py-3 rounded-xl text-white font-semibold">
+                     Edit Note
+                </a>
+
+                <a
+                    href="/delete/<%= filename %>"
+                    onclick="return confirm('Are you sure you want to delete this note?')"
+                    class="bg-red-600 hover:bg-red-700 transition duration-300 px-6 py-3 rounded-xl text-white font-semibold">
+                    🗑 Delete Note
+                </a>
+
+            </div>
 
         </div>
 
     </div>
+
+</div>
 
 </body>
 </html>

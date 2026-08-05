@@ -1,41 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Notes</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes App</title>
+
     <link rel="stylesheet" href="/stylesheets/output.css">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  </head>
-  <body>
-    <div class="main w-full min-h-screen bg-zinc-900">
-        <div class="form p-10 text-white" >
-            <form action="/create" method="post">
-                <input class="block w-full rounded-md outline-none px-5 py-2 bg-zinc-800" type="text" placeholder="Title goes here" name="title">
-                <textarea class="block w-full rounded-md outline-none mt-3 px-5 py-2 resize-none bg-zinc-800" placeholder="Write your task details here" name="details"></textarea>
-                <input class="mt-3 bg-blue-600 px-5 py-2 rounded-md" type="Submit" value="Create Task">
-            </form>
-        </div>
-        
-         <div class="tasks flex gap-3 flex-wrap p-10">
-            <% if(files.length > 0){ %>
-                <% files.forEach(function(val){
-                %>
-                <div class="task min-w-72 px-3 py-4  rounded-md bg-zinc-800">
-            <h1 class="text-white text-2xl tracking-tighter"><%= val.replace(".txt","") %></h1>   
-            <div class="flex w-full justify-between items-center mt-3">
-                <a class="text-blue-600 inline-block " href="/file/<%= val %>">Read more...</a>
-            <a class="text-zinc-400" href="/edit/<%= val %>">Edit</a>
-            </div>
+</head>
+<body>
+
+<div class="min-h-screen bg-zinc-900">
+
+    <!-- Header -->
+    <div class="max-w-6xl mx-auto px-8 pt-10">
+
+        <h1 class="text-5xl font-bold text-white">
+             Notes App
+        </h1>
+
+        <p class="text-zinc-400 mt-2">
+            Create, edit and manage your notes with ease.
+        </p>
+
+    </div>
+
+    <!-- Form -->
+    <div class="max-w-6xl mx-auto px-8 mt-10">
+
+        <form action="/create" method="post">
+
+            <input
+                class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-5 py-3 text-white outline-none focus:border-blue-500 transition"
+                type="text"
+                name="title"
+                placeholder="Enter note title..."
+                required>
+
+            <textarea
+                class="w-full mt-4 bg-zinc-800 border border-zinc-700 rounded-xl px-5 py-3 text-white outline-none resize-none h-40 focus:border-blue-500 transition"
+                name="details"
+                placeholder="Write your note here..."
+                required></textarea>
+
+            <button
+                class="mt-5 bg-blue-600 hover:bg-blue-700 transition duration-300 px-6 py-3 rounded-xl text-white font-semibold cursor-pointer">
+                + Create Note
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- Notes -->
+    <div class="max-w-6xl mx-auto px-8 py-12">
+
+        <% if(files.length > 0){ %>
+
+            <div class="flex flex-wrap gap-6">
+
+                <% files.forEach(function(val){ %>
+
+                    <div class="w-72 bg-zinc-800 rounded-xl p-5 shadow-lg hover:shadow-2xl hover:scale-105 transition duration-300">
+
+                        <h2 class="text-2xl font-semibold text-white break-words">
+                            <%= val.replace(".txt","") %>
+                        </h2>
+
+                        <p class="text-zinc-400 text-sm mt-2">
+                            Click below to view or edit this note.
+                        </p>
+
+                        <div class="flex justify-between items-center mt-6">
+
+                            <a
+                                href="/file/<%= val %>"
+                                class="text-blue-400 hover:text-blue-300 font-medium">
+                                Read More →
+                            </a>
+
+                            <a
+                                href="/edit/<%= val %>"
+                                class="text-yellow-400 hover:text-yellow-300 font-medium">
+                                Edit
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                <% }) %>
+
             </div>
 
-            <% }) %>
-            <% }else{ %>
-                <h3 class="text-zinc-600">No Tasks yet.</h3>
-            <% } %>
-            
-        
+        <% } else { %>
+
+            <div class="text-center py-24">
+
+                <h2 class="text-6xl">
+                    📒
+                </h2>
+
+                <h3 class="text-3xl text-zinc-300 mt-5">
+                    No Notes Yet
+                </h3>
+
+                <p class="text-zinc-500 mt-3">
+                    Create your first note using the form above.
+                </p>
+
+            </div>
+
+        <% } %>
+
     </div>
-        </div>
-       
-  </body>
+
+</div>
+
+</body>
 </html>
